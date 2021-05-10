@@ -1,0 +1,17 @@
+{
+  "name": "rikai-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "tsc -w",
+    "start": "nodemon dist/index.js"
+  },
+  "author": "Ben Sweeney",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^15.0.2",
+    "nodemon": "^2.0.7",
+    "typescript": "^4.2.4"
+  }
+}
