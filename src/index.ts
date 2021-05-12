@@ -4,6 +4,7 @@ import { createConnection } from "typeorm";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
+import { MyContext } from "./types";
 import { HelloResolver } from "./resolvers/hello";
 
 const main = async () => {
@@ -23,6 +24,10 @@ const main = async () => {
     schema: await buildSchema({
       resolvers: [HelloResolver],
       validate: false,
+    }),
+    context: ({ req, res }): MyContext => ({
+      req,
+      res,
     }),
   });
 
