@@ -1,22 +1,8 @@
 import argon2 from "argon2";
 import { User } from "../entities/User";
-import {
-  Arg,
-  Field,
-  InputType,
-  Mutation,
-  ObjectType,
-  Resolver,
-} from "type-graphql";
+import { Arg, Field, Mutation, ObjectType, Resolver } from "type-graphql";
 import { validateRegister } from "../utils/validateRegister";
-
-@InputType()
-class UsernamePasswordInput {
-  @Field()
-  username: string;
-  @Field()
-  password: string;
-}
+import { UsernamePasswordInput } from "./UsernamePasswordInput";
 
 @ObjectType()
 class FieldError {
