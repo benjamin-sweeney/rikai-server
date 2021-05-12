@@ -5,16 +5,17 @@ import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { MyContext } from "./types";
 import { CharacterResolver } from "./resolvers/character";
+import { UserResolver } from "./resolvers/user";
 
 const main = async () => {
-  const conn = await createConnection();
+  await createConnection();
   // await conn.runMigrations();
 
   const app = express();
 
   const server = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [CharacterResolver],
+      resolvers: [CharacterResolver, UserResolver],
       validate: false,
     }),
     context: ({ req, res }): MyContext => ({
