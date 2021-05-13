@@ -10,6 +10,7 @@ import redis from "redis";
 import session from "express-session";
 import connectRedis from "connect-redis";
 import { COOKIE_NAME, SESSION_SECRET, __prod__ } from "./constants";
+import cors from "cors";
 
 const main = async () => {
   await createConnection();
@@ -20,6 +21,12 @@ const main = async () => {
   const RedisStore = connectRedis(session);
   const redisClient = redis.createClient();
 
+  app.use(
+    cors({
+      origin: "http://localhost:4444",
+      credentials: true,
+    })
+  );
   app.use(
     session({
       name: COOKIE_NAME,
@@ -50,7 +57,7 @@ const main = async () => {
     }),
   });
 
-  server.applyMiddleware({ app });
+  server.applyMiddleware({ app, cors: false });
 
   app.listen(4000, () => {
     console.log("server started on localhost:4000");
