@@ -6,12 +6,38 @@ import { buildSchema } from "type-graphql";
 import { MyContext } from "./types";
 import { CharacterResolver } from "./resolvers/character";
 import { UserResolver } from "./resolvers/user";
+import redis from "redis";
+import session from "express-session";
+import connectRedis from "connect-redis";
+import { COOKIE_NAME, SESSION_SECRET, __prod__ } from "./constants";
 
 const main = async () => {
   await createConnection();
   // await conn.runMigrations();
 
   const app = express();
+
+  const RedisStore = connectRedis(session);
+  const redisClient = redis.createClient();
+
+  app.use(
+    session({
+      name: COOKIE_NAME,
+      store: new RedisStore({
+        client: redisClient,
+        disableTouch: true,
+      }),
+      cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
+        httpOnly: true,
+        sameSite: "lax",
+        secure: __prod__,
+      },
+      saveUninitialized: false,
+      secret: SESSION_SECRET,
+      resave: false,
+    })
+  );
 
   const server = new ApolloServer({
     schema: await buildSchema({
