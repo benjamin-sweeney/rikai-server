@@ -1,6 +1,7 @@
+import { User } from "../entities/User";
 import { UsernamePasswordInput } from "src/resolvers/UsernamePasswordInput";
 
-export const validateRegister = (options: UsernamePasswordInput) => {
+export const validateRegister = async (options: UsernamePasswordInput) => {
   if (options.username.length <= 2) {
     return [
       {
@@ -17,6 +18,14 @@ export const validateRegister = (options: UsernamePasswordInput) => {
       },
     ];
   }
-
+  const existingUser = await User.findOne({ username: options.username });
+  if (existingUser) {
+    return [
+      {
+        field: "username",
+        message: "username already taken",
+      },
+    ];
+  }
   return null;
 };

@@ -47,7 +47,7 @@ export class UserResolver {
     @Arg("options") options: UsernamePasswordInput,
     @Ctx() { req }: MyContext
   ): Promise<UserResponse> {
-    const validationErrors = validateRegister(options);
+    const validationErrors = await validateRegister(options);
     if (validationErrors) {
       return { errors: validationErrors };
     }
