@@ -1,24 +1,7 @@
 import { Character } from "../entities/Character";
-import {
-  Arg,
-  Field,
-  InputType,
-  Int,
-  Mutation,
-  Query,
-  Resolver,
-} from "type-graphql";
+import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
 import { getConnection } from "typeorm";
-
-@InputType()
-class CharacterInput {
-  @Field()
-  romaji: string;
-  @Field()
-  text: string;
-  @Field()
-  type: string;
-}
+import { CharacterInput } from "./CharacterInput";
 
 @Resolver(Character)
 export class CharacterResolver {
